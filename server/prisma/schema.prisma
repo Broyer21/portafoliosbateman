@@ -1,0 +1,143 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  PROCESSING
+  SHIPPED
+  COMPLETED
+  CANCELLED
+  REFUNDED
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique @db.VarChar(191)
+  passwordHash String    @db.VarChar(255)
+  name         String    @db.VarChar(120)
+  role         UserRole  @default(CUSTOMER)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  addresses    Address[]
+  orders       Order[]
+
+  @@index([createdAt])
+}
+
+model Session {
+  sid       String   @id @db.VarChar(191)
+  data      String   @db.LongText
+  expiresAt DateTime
+
+  @@index([expiresAt])
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String    @unique @db.VarChar(100)
+  slug      String    @unique @db.VarChar(120)
+  products  Product[]
+  createdAt DateTime  @default(now())
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  name        String      @db.VarChar(160)
+  slug        String      @unique @db.VarChar(180)
+  description String      @db.Text
+  imageUrl    String      @db.VarChar(2048)
+  priceCents  Int
+  currency    String      @default("eur") @db.Char(3)
+  stock       Int         @default(0)
+  active      Boolean     @default(true)
+  featured    Boolean     @default(false)
+  categoryId  String
+  category    Category    @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  orderItems  OrderItem[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([categoryId, active])
+  @@index([active, featured])
+}
+
+model Address {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipient    String   @db.VarChar(120)
+  line1        String   @db.VarChar(180)
+  line2        String?  @db.VarChar(180)
+  city         String   @db.VarChar(100)
+  postalCode   String   @db.VarChar(20)
+  country      String   @db.Char(2)
+  phone        String?  @db.VarChar(30)
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Order {
+  id             String      @id @default(cuid())
+  userId         String
+  user           User        @relation(fields: [userId], references: [id], onDelete: Restrict)
+  idempotencyKey String      @db.VarChar(100)
+  status         OrderStatus @default(PENDING)
+  currency       String      @default("eur") @db.Char(3)
+  subtotalCents  Int
+  shippingCents  Int
+  totalCents     Int
+  shippingData   String      @db.Text
+  payment        Payment?
+  items          OrderItem[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@unique([userId, idempotencyKey])
+  @@index([userId, createdAt])
+  @@index([status, createdAt])
+}
+
+model OrderItem {
+  id                String  @id @default(cuid())
+  orderId           String
+  order             Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId         String
+  product           Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+  productName       String  @db.VarChar(160)
+  productImageUrl   String  @db.VarChar(2048)
+  unitPriceCents    Int
+  quantity          Int
+
+  @@index([orderId])
+}
+
+model Payment {
+  id                     String   @id @default(cuid())
+  orderId                String   @unique
+  order                  Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  provider               String   @default("stripe") @db.VarChar(40)
+  providerSessionId      String?  @unique @db.VarChar(255)
+  providerPaymentIntent  String?  @unique @db.VarChar(255)
+  status                 String   @default("pending") @db.VarChar(40)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+}
+
+model WebhookEvent {
+  id          String   @id @db.VarChar(255)
+  type        String   @db.VarChar(120)
+  processedAt DateTime @default(now())
+}
