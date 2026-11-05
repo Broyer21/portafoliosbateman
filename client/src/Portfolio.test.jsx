@@ -26,11 +26,12 @@ describe('portfolio pages', () => {
     expect(screen.getByRole('link', { name: 'Visitar la tienda' })).toHaveAttribute('href', '/tienda');
   });
 
-  it('presents cybersecurity as an introductory service and identifies training as ongoing', () => {
+  it('offers preventive cybersecurity work and identifies the completed training', () => {
     render(<MemoryRouter><PortfolioCatalog /></MemoryRouter>);
 
     expect(screen.getByRole('heading', { name: 'Ciberseguridad web.' })).toBeInTheDocument();
-    expect(screen.getByText(/cursando ciberseguridad en Coremsa Formaciones/i)).toBeInTheDocument();
+    expect(screen.getByText(/ofrezco una revisión preventiva de aspectos básicos de seguridad web/i)).toBeInTheDocument();
+    expect(screen.getByText(/formación en ciberseguridad completada en Coremsa Formaciones/i)).toBeInTheDocument();
     expect(screen.getByText(/no incluye auditorías avanzadas ni pruebas de intrusión/i)).toBeInTheDocument();
   });
 

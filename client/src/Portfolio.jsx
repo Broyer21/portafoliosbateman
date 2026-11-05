@@ -208,10 +208,10 @@ export function PortfolioCatalog() {
       <section className="portfolio-security-offer" aria-labelledby="catalog-security-heading">
         <div className="portfolio-security-icon" aria-hidden="true"><ShieldCheck size={23} /></div>
         <div className="portfolio-security-copy">
-          <p className="portfolio-eyebrow"><span /> NUEVA LÍNEA · FORMACIÓN EN CURSO</p>
+          <p className="portfolio-eyebrow"><span /> SERVICIO · FORMACIÓN COMPLETADA</p>
           <h2 id="catalog-security-heading">Ciberseguridad web<span className="portfolio-period">.</span></h2>
-          <p>Estoy cursando ciberseguridad en Coremsa Formaciones y quiero aplicar buenas prácticas preventivas en proyectos web.</p>
-          <p className="portfolio-security-scope">Enfoque inicial: revisar contigo aspectos básicos y priorizar mejoras dentro de un alcance acordado. La formación sigue en curso; no incluye auditorías avanzadas ni pruebas de intrusión.</p>
+          <p>Ofrezco una revisión preventiva de aspectos básicos de seguridad web para ayudarte a detectar mejoras y aplicar buenas prácticas en tu proyecto.</p>
+          <p className="portfolio-security-scope">Formación en ciberseguridad completada en Coremsa Formaciones. El alcance se acuerda antes de empezar; no incluye auditorías avanzadas ni pruebas de intrusión.</p>
         </div>
         <span className="portfolio-security-index">03 / NUEVA LÍNEA</span>
       </section>
