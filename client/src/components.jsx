@@ -80,7 +80,7 @@ export function QuantityControl({ value, onChange, maximum = 20 }) {
   );
 }
 
-export function CartPage({ user }) {
+export function CartPage({ user, demo = false }) {
   const cart = useCart();
   const navigate = useNavigate();
   const shipping = cart.subtotalCents >= 5000 ? 0 : 500;
@@ -109,11 +109,11 @@ export function CartPage({ user }) {
           <aside className="summary-card">
             <h2>Resumen</h2>
             <div><span>Subtotal</span><span>{money(cart.subtotalCents)}</span></div>
-            <div><span>Envío</span><span>{shipping ? money(shipping) : 'Gratis'}</span></div>
-            <p className="shipping-note"><ArrowDown size={14} /> Envío gratis desde 50 €</p>
-            <div className="summary-total"><strong>Total</strong><strong>{money(cart.subtotalCents + shipping)}</strong></div>
-            <button className="button button-dark full-width" onClick={() => navigate(user ? '/checkout' : '/acceso?redirect=/checkout')}>Continuar al pago <ArrowRight size={16} /></button>
-            <p className="secure-note">El precio final y la disponibilidad se verifican de nuevo al confirmar el pedido.</p>
+            <div><span>{demo ? 'Envío de muestra' : 'Envío'}</span><span>{shipping ? money(shipping) : 'Gratis'}</span></div>
+            <p className="shipping-note">{demo ? 'Importes solo demostrativos' : <><ArrowDown size={14} /> Envío gratis desde 50 €</>}</p>
+            <div className="summary-total"><strong>{demo ? 'Total de muestra' : 'Total'}</strong><strong>{money(cart.subtotalCents + shipping)}</strong></div>
+            <button className="button button-dark full-width" onClick={() => navigate(demo ? '/checkout' : user ? '/checkout' : '/acceso?redirect=/checkout')}>{demo ? 'Ver pasarela de muestra' : 'Continuar al pago'} <ArrowRight size={16} /></button>
+            <p className="secure-note">{demo ? 'Demostración: no se realizan compras ni pagos.' : 'El precio final y la disponibilidad se verifican de nuevo al confirmar el pedido.'}</p>
           </aside>
         </div>
       )}

@@ -1,6 +1,6 @@
 # Portfolio personal
 
-Sitio estático de presentación para mostrar experiencia, proyectos de ejemplo y vías de contacto. No es una tienda: la maqueta de e-commerce de la sección de proyectos es únicamente visual y no admite compras, carrito ni pagos.
+Sitio estático de presentación para mostrar experiencia, proyectos de ejemplo y vías de contacto. Incluye una tienda de muestra navegable con catálogo y bolsa local para enseñar el flujo visual; su pasarela de pago es solo una maqueta deshabilitada y no se realizan compras ni pedidos.
 
 ## Desarrollo local
 
@@ -10,7 +10,7 @@ Sitio estático de presentación para mostrar experiencia, proyectos de ejemplo 
 - Comprueba la compilación de producción con `npm run build`.
 - Ejecuta las pruebas con `npm test` y ESLint con `npm run lint`.
 
-El portfolio no necesita MySQL, claves de Stripe ni variables de entorno. La carpeta `server/` se conserva en el repositorio, pero no se usa ni se despliega para este sitio.
+El portfolio y la tienda de muestra no necesitan MySQL, claves de Stripe ni variables de entorno. La carpeta `server/` se conserva en el repositorio, pero no se usa ni se despliega para el sitio estático.
 
 ## Publicación en GitHub Pages
 
@@ -19,4 +19,5 @@ El workflow [`.github/workflows/pages.yml`](./.github/workflows/pages.yml) compi
 ## Personalización
 
 - Para poner tus perfiles, edita la lista `socialLinks` de `client/src/Portfolio.jsx` y añade la URL correspondiente a cada red.
+- La tienda de ejemplo está en `client/src/App.jsx`; la pantalla de pasarela sin pagos se define en `client/src/PortfolioApp.jsx`.
 - Las imágenes que se muestran en el portfolio están en `client/public/images/`.

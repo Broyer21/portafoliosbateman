@@ -137,7 +137,7 @@ export function CartDrawer({ open, onClose }) {
         )}
         <footer>
           <div className="drawer-total"><span>Subtotal</span><strong>{money(cart.subtotalCents)}</strong></div>
-          <Link className="button button-dark full-width" to="/carrito" onClick={onClose}>Ver bolsa y pagar <ArrowRight size={16} /></Link>
+          <Link className="button button-dark full-width" to="/carrito" onClick={onClose}>Ver bolsa de muestra <ArrowRight size={16} /></Link>
         </footer>
       </aside>
     </div>

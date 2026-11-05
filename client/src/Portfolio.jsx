@@ -1,11 +1,15 @@
-import { ArrowDownRight, ArrowRight, Code2, Info, Layers3, MoveUpRight, ShoppingBag, ShieldCheck, WandSparkles } from 'lucide-react';
+import { ArrowDownRight, ArrowRight, Code2, Github, Info, Instagram, Layers3, Linkedin, MoveUpRight, ShoppingBag, ShieldCheck, WandSparkles } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const assetPath = (path) => `${import.meta.env.BASE_URL}${path}`;
 const localArtwork = assetPath('images/portfolio-background.jpg');
 const localProjectArtwork = assetPath('images/portfolio-project.jpg');
-const socialLinks = ['LinkedIn', 'GitHub', 'Instagram', 'Otra red'].map((name) => ({ name, url: '' }));
+const socialLinks = [
+  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/juan-esteban-bateman-a970a3300/', Icon: Linkedin },
+  { name: 'GitHub', url: 'https://github.com/Broyer21', Icon: Github },
+  { name: 'Instagram', url: 'https://www.instagram.com/batemanius0/', Icon: Instagram },
+];
 
 function publicPath(path) {
   const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
@@ -78,8 +82,8 @@ export function PortfolioHeader() {
   return (
     <header className="portfolio-header">
       <Link className="portfolio-wordmark" to="/" aria-label="Inicio del portfolio" onClick={(event) => goToSection(event, 'presentacion', '/')}>
-        <span className="brand-mark">mh</span>
-        <span>web <b>studio</b></span>
+        <span className="brand-mark">eb</span>
+        <span>esteban <b>bateman</b></span>
       </Link>
       <nav className="portfolio-nav" aria-label="Navegación principal">
         {sections.map(({ id, path, label }) => (
@@ -195,12 +199,14 @@ export function PortfolioProjects() {
       </section>
       <section className="portfolio-project-grid">
         <article className="portfolio-project-card">
-          <div className="project-art project-art-shop" style={{ '--portfolio-art': `url("${localProjectArtwork}")` }}>
-            <div className="project-browser"><span /><span /><span /><div className="project-browser-content"><ShoppingBag size={29} /><span>PROYECTO DE MUESTRA</span><strong>Concepto<br />de tienda.</strong></div></div>
-            <span className="project-number">01 / E-COMMERCE</span>
-          </div>
+          <Link className="project-art-link" to="/tienda" aria-label="Abrir la tienda de ejemplo">
+            <div className="project-art project-art-shop" style={{ '--portfolio-art': `url("${localProjectArtwork}")` }}>
+              <div className="project-browser"><span /><span /><span /><div className="project-browser-content"><ShoppingBag size={29} /><span>PROYECTO DE MUESTRA</span><strong>Concepto<br />de tienda.</strong></div></div>
+              <span className="project-number">01 / E-COMMERCE</span>
+            </div>
+          </Link>
           <div className="project-info">
-            <div><p>MAQUETA VISUAL · E-COMMERCE</p><h2>Tienda de ejemplo</h2><span>Diseño de una interfaz de catálogo y producto.</span></div>
+            <div><p>DEMO INTERACTIVA · SIN PAGOS</p><h2>Tienda de ejemplo</h2><span>Explora productos, añade a la bolsa y mira el checkout de muestra.</span></div>
           </div>
         </article>
         <article className="portfolio-coming-card">
@@ -211,7 +217,7 @@ export function PortfolioProjects() {
           <div className="coming-index">02—∞</div>
         </article>
       </section>
-      <section className="portfolio-catalog-note"><Info size={19} /><p>Esta tienda es una maqueta visual para mostrar diseño de interfaces. No hay compras, carrito ni pagos.</p></section>
+      <section className="portfolio-catalog-note"><Info size={19} /><p>La tienda y su pasarela son una demostración visual: puedes recorrer el catálogo y el carrito, pero no se procesa ningún pago ni pedido real.</p></section>
       <section className="portfolio-security-offer" aria-labelledby="catalog-security-heading">
         <div className="portfolio-security-icon" aria-hidden="true"><ShieldCheck size={23} /></div>
         <div className="portfolio-security-copy">
@@ -232,16 +238,15 @@ export function PortfolioContact() {
       <section className="portfolio-page-heading">
         <p className="portfolio-eyebrow"><span /> CONTACTO</p>
         <h1>Conectemos<span className="portfolio-period">.</span></h1>
-        <p>Encuéntrame en mis redes. Añadiré aquí los enlaces para que puedas escribirme y conocer más sobre mi trabajo.</p>
+        <p>Encuéntrame en mis redes y conoce más sobre mi trabajo.</p>
       </section>
       <section className="portfolio-social-links" aria-label="Enlaces a redes sociales">
-        {socialLinks.map(({ name, url }, index) => (
+        {socialLinks.map(({ name, url, Icon }, index) => (
           <article className="portfolio-social-card" key={name}>
             <span className="portfolio-social-number">0{index + 1}</span>
+            <Icon className="portfolio-social-icon" size={34} aria-hidden="true" />
             <h2>{name}</h2>
-            {url
-              ? <a href={url} target="_blank" rel="noreferrer">Visitar perfil <MoveUpRight size={15} /></a>
-              : <span className="portfolio-social-pending">Añade aquí tu enlace</span>}
+            <a href={url} target="_blank" rel="noreferrer" aria-label={`Visitar perfil de ${name}`}>Visitar perfil <MoveUpRight size={15} /></a>
           </article>
         ))}
       </section>

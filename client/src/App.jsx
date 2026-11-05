@@ -5,7 +5,7 @@ import { demoResponse } from './demoData.js';
 import { api, clearCsrfToken, jsonRequest } from './api.js';
 import { useCart } from './CartContext.jsx';
 import { CartPage, Footer, Header, money, ProductCard } from './components.jsx';
-import { CartDrawer, ProductSkeletons, QuickView, ShopCard, useWishlist } from './ShopExtras.jsx';
+import { CartDrawer, QuickView, ShopCard, useWishlist } from './ShopExtras.jsx';
 import { PortfolioBubbles, PortfolioFooter, PortfolioHeader, PortfolioOnePage } from './Portfolio.jsx';
 
 function useLoad(path, dependencies = []) {
@@ -53,7 +53,7 @@ function CategoryPicker({ categories, value, onChange }) {
   );
 }
 
-function ShopPage({ onAdd }) {
+export function ShopPage({ onAdd }) {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
   const [sort, setSort] = useState('featured');
@@ -65,8 +65,8 @@ function ShopPage({ onAdd }) {
   const query = new URLSearchParams({ sort });
   if (search.trim()) query.set('search', search.trim());
   if (category) query.set('category', category);
-  const { data: products, loading, error } = useLoad(`/api/products?${query}`, [search, category, sort]);
-  const { data: categories } = useLoad('/api/categories');
+  const products = demoResponse(`/api/products?${query}`);
+  const categories = demoResponse('/api/categories');
   const visible = onlyLiked ? products?.filter((product) => wishlist.ids.includes(product.id)) : products;
   const addAndOpen = (product) => { onAdd(product); setDrawer(true); };
 
@@ -82,10 +82,10 @@ function ShopPage({ onAdd }) {
         <div className="shop-hero-art" aria-hidden="true">
           <img src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=1100&q=85" alt="" />
           <span className="hero-chip chip-a">Hecho a mano</span>
-          <span className="hero-chip chip-b">Envío gratis desde 50 €</span>
+          <span className="hero-chip chip-b">Catálogo de muestra</span>
         </div>
       </section>
-      <div className="marquee" aria-hidden="true"><div className="marquee-track">{[0, 1].map((n) => <div key={n}><span>Envío gratis desde 50 €</span><span>Devoluciones en 30 días</span><span>Pago seguro con Stripe</span><span>Piezas de edición limitada</span><span>Embalaje sin plástico</span></div>)}</div></div>
+      <div className="marquee" aria-hidden="true"><div className="marquee-track">{[0, 1].map((n) => <div key={n}><span>Productos de muestra</span><span>Diseño de interfaz</span><span>Pago deshabilitado</span><span>Bolsa de demostración</span><span>Sin pedidos reales</span></div>)}</div></div>
       <div id="coleccion" className="shop-anchor" />
       <CategoryPicker categories={categories} value={category} onChange={setCategory} />
       <div className="shop-toolbar">
@@ -96,7 +96,7 @@ function ShopPage({ onAdd }) {
           <label><span className="visually-hidden">Ordenar</span><select value={sort} onChange={(event) => setSort(event.target.value)}><option value="featured">Destacados</option><option value="price-asc">Precio: menor a mayor</option><option value="price-desc">Precio: mayor a menor</option><option value="name">Nombre</option></select><ChevronDown size={14} /></label>
         </div>
       </div>
-      {loading ? <ProductSkeletons /> : error ? <ErrorMessage>{error}</ErrorMessage> : visible?.length ? (
+      {visible?.length ? (
         <><p className="results-count">{visible.length} {visible.length === 1 ? 'objeto' : 'objetos'}</p><div className="product-grid">{visible.map((product, index) => <ShopCard key={product.id} index={index} product={product} onAdd={addAndOpen} onQuickView={setQuick} liked={wishlist.ids.includes(product.id)} onLike={wishlist.toggle} />)}</div></>
       ) : <div className="empty-state shop-empty"><Search size={25} /><h2>No encontramos ese objeto</h2><p>Prueba otra búsqueda o cambia los filtros.</p></div>}
       <QuickView product={quick} onClose={() => setQuick(null)} onAdd={addAndOpen} liked={quick ? wishlist.ids.includes(quick.id) : false} onLike={wishlist.toggle} />
@@ -105,11 +105,10 @@ function ShopPage({ onAdd }) {
   );
 }
 
-function ProductPage({ onAdd }) {
+export function ProductPage({ onAdd }) {
   const { slug } = useParams();
-  const { data: product, loading, error } = useLoad(`/api/products/${encodeURIComponent(slug)}`, [slug]);
-  if (loading) return <Loading />;
-  if (error) return <main className="page-shell"><ErrorMessage>{error}</ErrorMessage><Link to="/tienda">Volver a la tienda</Link></main>;
+  const product = demoResponse('/api/products?sort=name').find((item) => item.slug === slug);
+  if (!product) return <main className="page-shell"><ErrorMessage>No se encontró el producto de muestra.</ErrorMessage><Link to="/tienda">Volver a la tienda</Link></main>;
   return (
     <main className="page-shell product-detail">
       <div className="breadcrumb"><Link to="/">Inicio</Link><span>/</span><Link to="/tienda">Tienda</Link><span>/</span><span>{product.name}</span></div>
@@ -117,7 +116,7 @@ function ProductPage({ onAdd }) {
         <p className="eyebrow">{product.category?.name}</p><h1>{product.name}<span className="heading-dot">.</span></h1><p className="detail-price">{money(product.priceCents, product.currency)}</p><p className="detail-description">{product.description}</p>
         <p className={`stock-message ${product.stock < 1 ? 'out-of-stock' : ''}`}>{product.stock < 1 ? 'Agotado temporalmente' : product.stock <= 5 ? `Solo quedan ${product.stock} unidades` : 'Disponible para envío'}</p>
         <button className="button button-dark full-width" disabled={product.stock < 1} onClick={() => onAdd(product)}>{product.stock < 1 ? 'Agotado' : 'Añadir a la bolsa'} <ArrowRight size={16} /></button>
-        <div className="product-promises"><div><Truck size={17} /><span>Envío gratis desde 50 €</span></div><div><LockKeyhole size={17} /><span>Pago protegido con Stripe</span></div></div>
+        <div className="product-promises"><div><PackageCheck size={17} /><span>Producto de muestra</span></div><div><LockKeyhole size={17} /><span>Pago deshabilitado</span></div></div>
       </div></div>
     </main>
   );
