@@ -15,7 +15,7 @@ function githubPagesFallback() {
 }
 
 export default defineConfig({
-  base: process.env.GITHUB_ACTIONS === 'true' ? '/presentaci-nbateman/' : '/',
+  base: process.env.GITHUB_ACTIONS === 'true' ? '/portafoliosbateman/' : '/',
   plugins: [react(), githubPagesFallback()],
   server: {
     proxy: {
