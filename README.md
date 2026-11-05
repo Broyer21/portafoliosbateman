@@ -1,45 +1,22 @@
-# Portfolio de desarrollo web
+# Portfolio personal
 
-Portfolio en React para presentar servicios y ejemplos de páginas. El catálogo incluye una tienda demostrativa independiente con API REST, sesiones en MySQL, administración, inventario transaccional y Checkout de Stripe cuando se configuren credenciales de prueba. Sus productos e imágenes son de muestra.
+Sitio estático de presentación para mostrar experiencia, proyectos de ejemplo y vías de contacto. No es una tienda: la maqueta de e-commerce de la sección de proyectos es únicamente visual y no admite compras, carrito ni pagos.
 
-## Requisitos
+## Desarrollo local
 
-- Node.js 20.19+ o 22.12+ y npm.
-- MySQL 8.0+.
-- Una cuenta Stripe solo si se desea probar el pago.
+- Requisitos: Node.js 20.19+ o 22.12+ y npm.
+- Instala dependencias con `npm install`.
+- Inicia el sitio con `npm run dev` y abre http://localhost:5173.
+- Comprueba la compilación de producción con `npm run build`.
+- Ejecuta las pruebas con `npm test` y ESLint con `npm run lint`.
 
-## Inicio local
+El portfolio no necesita MySQL, claves de Stripe ni variables de entorno. La carpeta `server/` se conserva en el repositorio, pero no se usa ni se despliega para este sitio.
 
-1. Copia `.env.example` como `.env` y configura MySQL y un `SESSION_SECRET` aleatorio de al menos 32 caracteres.
-2. Crea la base `tienda` y un usuario MySQL con permisos sobre ella.
-3. Desde la carpeta raíz, ejecuta `npm install`, `npm run db:generate`, `npm run db:migrate` y `npm run db:seed`.
-4. Arranca frontend y API con `npm run dev`. Abre http://localhost:5173 para ver el portfolio; en el menú Catálogo, visita “Tienda de ejemplo”.
+## Publicación en GitHub Pages
 
-Las imágenes propias de `imagenesausar` se han optimizado y copiado a `client/public/images/`. Para cambiar el fondo de portada reemplaza `portfolio-background.jpg`; para cambiar la imagen de la tarjeta del catálogo, reemplaza `portfolio-project.jpg`. Los archivos de esa carpeta se sirven desde `/images/`.
+El workflow [`.github/workflows/pages.yml`](./.github/workflows/pages.yml) compila el sitio y lo publica automáticamente al actualizar la rama `main`. En GitHub, configura **Settings → Pages → Build and deployment → Source → GitHub Actions**. La compilación genera también `404.html` para que las secciones sigan funcionando al abrir o recargar sus URL.
 
-Los detalles de configuración están en [docs/SETUP.md](./docs/SETUP.md).
+## Personalización
 
-## Preparación para GitHub
-
-El `.gitignore` excluye dependencias, compilaciones, coberturas de pruebas, archivos locales de entorno y claves privadas. `.env.example` contiene valores de ejemplo: mantenlo sin credenciales reales y nunca subas `.env`, claves de Stripe ni contraseñas.
-
-## Comandos
-
-| Comando | Uso |
-| --- | --- |
-| `npm run dev` | Inicia el servidor API y Vite |
-| `npm test` | Ejecuta las pruebas unitarias |
-| `npm run lint` | Ejecuta ESLint |
-| `npm run build` | Compila el frontend |
-| `npm run db:migrate` | Aplica migraciones locales |
-| `npm run db:seed` | Carga categorías y productos ficticios |
-| `npm run admin:create` | Inicializador interactivo del primer administrador |
-
-## Funcionalidad y límites
-
-- Portfolio con presentación, catálogo ampliable y sección de servicios.
-- Catálogo público de la tienda consultado desde la API; carrito de navegador persistido localmente.
-- Registro, inicio/cierre de sesión y pedidos requieren la API y MySQL.
-- El servidor obtiene precios y stock desde MySQL; el total enviado por el navegador se ignora.
-- Las credenciales Stripe son opcionales; sin ellas, el servidor no acepta compras y no simula pagos.
-- No se ha desplegado ni configurado ningún servicio externo. Consulta [docs/PROJECT_STATUS.md](./docs/PROJECT_STATUS.md) y [docs/HUMAN_TASKS.md](./docs/HUMAN_TASKS.md).
+- Para poner tus perfiles, edita la lista `socialLinks` de `client/src/Portfolio.jsx` y añade la URL correspondiente a cada red.
+- Las imágenes que se muestran en el portfolio están en `client/public/images/`.

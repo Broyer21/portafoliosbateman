@@ -1,9 +1,16 @@
-import { ArrowDownRight, ArrowRight, Code2, Layers3, MoveUpRight, PackageOpen, ShoppingBag, ShieldCheck, Sparkles, WandSparkles } from 'lucide-react';
+import { ArrowDownRight, ArrowRight, Code2, Info, Layers3, MoveUpRight, ShoppingBag, ShieldCheck, WandSparkles } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-const localArtwork = '/images/portfolio-background.jpg';
-const localProjectArtwork = '/images/portfolio-project.jpg';
+const assetPath = (path) => `${import.meta.env.BASE_URL}${path}`;
+const localArtwork = assetPath('images/portfolio-background.jpg');
+const localProjectArtwork = assetPath('images/portfolio-project.jpg');
+const socialLinks = ['LinkedIn', 'GitHub', 'Instagram', 'Otra red'].map((name) => ({ name, url: '' }));
+
+function publicPath(path) {
+  const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+  return `${base}${path === '/' ? '/' : path}`;
+}
 
 const bubbles = Array.from({ length: 22 }, (_, i) => ({
   left: (i * 37 + 11) % 100,
@@ -25,8 +32,8 @@ export function PortfolioBubbles() {
 
 const sections = [
   { id: 'presentacion', path: '/', label: 'Presentación' },
-  { id: 'catalogo', path: '/catalogo', label: 'Catálogo' },
-  { id: 'servicios', path: '/servicios', label: 'Contrata nuestros servicios' },
+  { id: 'proyectos', path: '/proyectos', label: 'Proyectos' },
+  { id: 'contacto', path: '/contacto', label: 'Contacto' },
 ];
 
 function scrollToSection(id, path, behavior = 'smooth') {
@@ -34,7 +41,7 @@ function scrollToSection(id, path, behavior = 'smooth') {
   if (!element) return false;
   if (id === 'presentacion') window.scrollTo({ top: 0, behavior });
   else element.scrollIntoView({ behavior, block: 'start' });
-  if (path) window.history.replaceState(window.history.state, '', path);
+  if (path) window.history.replaceState(window.history.state, '', publicPath(path));
   return true;
 }
 
@@ -76,10 +83,10 @@ export function PortfolioHeader() {
       </Link>
       <nav className="portfolio-nav" aria-label="Navegación principal">
         {sections.map(({ id, path, label }) => (
-          <a key={id} href={path} className={active === id ? 'active' : ''} aria-current={active === id ? 'page' : undefined} onClick={(event) => goToSection(event, id, path)}>{label}</a>
+          <a key={id} href={publicPath(path)} className={active === id ? 'active' : ''} aria-current={active === id ? 'page' : undefined} onClick={(event) => goToSection(event, id, path)}>{label}</a>
         ))}
       </nav>
-      <a className="portfolio-nav-cta" href="/servicios#contacto" onClick={(event) => goToSection(event, 'contacto', '/servicios')}>Hablemos <MoveUpRight size={15} /></a>
+      <a className="portfolio-nav-cta" href={`${publicPath('/contacto')}#contacto`} onClick={(event) => goToSection(event, 'contacto', '/contacto')}>Mis redes <MoveUpRight size={15} /></a>
     </header>
   );
 }
@@ -99,14 +106,16 @@ export function PortfolioOnePage() {
   const cloneRef = useRef(null);
   useSeamlessLoop(cloneRef);
   useEffect(() => {
-    const target = sections.find((section) => section.path === pathname) || sections[0];
+    const target = sections.find((section) => section.path === pathname)
+      || (pathname === '/catalogo' ? sections.find((section) => section.id === 'proyectos')
+        : pathname === '/servicios' ? sections.find((section) => section.id === 'contacto') : sections[0]);
     scrollToSection(target.id, null, 'auto');
   }, [pathname]);
   return (
     <>
       <div id="presentacion" className="portfolio-section"><PortfolioHome /></div>
-      <div id="catalogo" className="portfolio-section"><PortfolioCatalog /></div>
-      <div id="servicios" className="portfolio-section"><PortfolioServices /></div>
+      <div id="proyectos" className="portfolio-section"><PortfolioProjects /></div>
+      <div id="contacto" className="portfolio-section"><PortfolioContact /></div>
       <div ref={cloneRef} className="portfolio-section" aria-hidden="true" inert><PortfolioHome /></div>
     </>
   );
@@ -119,8 +128,8 @@ export function PortfolioFooter() {
         <span className="brand-mark">mh</span>
         <span>web <b>studio</b></span>
       </Link>
-      <span>Portfolio en construcción. Más proyectos pronto.</span>
-      <a href="/" onClick={(event) => goToSection(event, 'presentacion', '/')}>Volver arriba ↑</a>
+      <span>Portfolio personal · Desarrollo web</span>
+      <a href={publicPath('/')} onClick={(event) => goToSection(event, 'presentacion', '/')}>Volver arriba ↑</a>
     </footer>
   );
 }
@@ -141,11 +150,11 @@ export function PortfolioHome() {
             y conexión de APIs complejas, orientando la tecnología hacia
              la optimización de procesos de negocio
           </p>
-          <img className="hero-skeleton" src="/images/esqueleto.png" alt="" aria-hidden="true" />
+          <img className="hero-skeleton" src={assetPath('images/esqueleto.png')} alt="" aria-hidden="true" />
           </div>
           <div className="portfolio-hero-actions">
-            <Link className="portfolio-button portfolio-button-primary" to="/catalogo" onClick={(event) => goToSection(event, 'catalogo', '/catalogo')}>Explorar ejemplos <ArrowRight size={17} /></Link>
-            <Link className="portfolio-button portfolio-button-quiet" to="/servicios" onClick={(event) => goToSection(event, 'servicios', '/servicios')}>Ver servicios <ArrowDownRight size={17} /></Link>
+            <Link className="portfolio-button portfolio-button-primary" to="/proyectos" onClick={(event) => goToSection(event, 'proyectos', '/proyectos')}>Ver proyectos <ArrowRight size={17} /></Link>
+            <Link className="portfolio-button portfolio-button-quiet" to="/contacto" onClick={(event) => goToSection(event, 'contacto', '/contacto')}>Ver mis redes <ArrowDownRight size={17} /></Link>
           </div>
           <div className="portfolio-availability"><span className="availability-dot" /> Portfolio en desarrollo <span className="availability-divider">/</span> Nuevos proyectos próximamente</div>
         </div>
@@ -169,42 +178,40 @@ export function PortfolioHome() {
           <p className="portfolio-eyebrow">TRABAJO SELECCIONADO · 01</p>
           <h2>De una idea<br />a una experiencia.</h2>
         </div>
-        <p>Explora una primera demo interactiva. El catálogo crecerá con más ejemplos de sitios, componentes y productos digitales.</p>
-        <Link className="portfolio-text-link" to="/catalogo" onClick={(event) => goToSection(event, 'catalogo', '/catalogo')}>Ir al catálogo <ArrowRight size={16} /></Link>
+        <p>Explora una muestra visual de una tienda de ejemplo y conoce los proyectos y áreas en los que quiero seguir creciendo.</p>
+        <Link className="portfolio-text-link" to="/proyectos" onClick={(event) => goToSection(event, 'proyectos', '/proyectos')}>Ver proyectos <ArrowRight size={16} /></Link>
       </section>
     </main>
   );
 }
 
-export function PortfolioCatalog() {
+export function PortfolioProjects() {
   return (
     <main className="portfolio-inner-page">
       <section className="portfolio-page-heading">
-        <p className="portfolio-eyebrow"><span /> UNA COLECCIÓN EN CRECIMIENTO</p>
-        <h1>Catálogo<span className="portfolio-period">.</span></h1>
-        <p>Aquí iré reuniendo ejemplos de páginas y experiencias digitales. Por ahora, puedes explorar la primera demo.</p>
+        <p className="portfolio-eyebrow"><span /> PROYECTOS Y MUESTRAS</p>
+        <h1>Proyectos<span className="portfolio-period">.</span></h1>
+        <p>Una selección de proyectos y muestras visuales de interfaces web. La tienda es solo una maqueta: no permite comprar.</p>
       </section>
       <section className="portfolio-project-grid">
         <article className="portfolio-project-card">
           <div className="project-art project-art-shop" style={{ '--portfolio-art': `url("${localProjectArtwork}")` }}>
-            <div className="project-browser"><span /><span /><span /><div className="project-browser-content"><ShoppingBag size={29} /><span>OBJETOS PARA CADA DÍA</span><strong>Una tienda<br />de ejemplo.</strong></div></div>
+            <div className="project-browser"><span /><span /><span /><div className="project-browser-content"><ShoppingBag size={29} /><span>PROYECTO DE MUESTRA</span><strong>Concepto<br />de tienda.</strong></div></div>
             <span className="project-number">01 / E-COMMERCE</span>
           </div>
           <div className="project-info">
-            <div><p>DEMO INTERACTIVA · REACT</p><h2>Tienda de ejemplo</h2><span>Catálogo, página de producto y carrito de compras.</span></div>
-            <Link className="project-open" to="/tienda" aria-label="Visitar Tienda de ejemplo"><ArrowRight size={20} /></Link>
+            <div><p>MAQUETA VISUAL · E-COMMERCE</p><h2>Tienda de ejemplo</h2><span>Diseño de una interfaz de catálogo y producto.</span></div>
           </div>
-          <Link className="project-visit-link" to="/tienda">Visitar la tienda <MoveUpRight size={15} /></Link>
         </article>
         <article className="portfolio-coming-card">
           <div className="coming-icons"><Layers3 size={25} /><WandSparkles size={25} /></div>
           <span>PRÓXIMAMENTE</span>
           <h2>Más ideas<br />en camino.</h2>
-          <p>Este catálogo está preparado para añadir nuevos ejemplos a medida que los vayamos creando.</p>
+          <p>Este espacio está preparado para añadir nuevos proyectos a medida que los vayamos creando.</p>
           <div className="coming-index">02—∞</div>
         </article>
       </section>
-      <section className="portfolio-catalog-note"><PackageOpen size={19} /><p>La tienda está en modo demostración. Su carrito es funcional; el pago requiere configurar los servicios externos descritos en la documentación del proyecto.</p></section>
+      <section className="portfolio-catalog-note"><Info size={19} /><p>Esta tienda es una maqueta visual para mostrar diseño de interfaces. No hay compras, carrito ni pagos.</p></section>
       <section className="portfolio-security-offer" aria-labelledby="catalog-security-heading">
         <div className="portfolio-security-icon" aria-hidden="true"><ShieldCheck size={23} /></div>
         <div className="portfolio-security-copy">
@@ -219,22 +226,24 @@ export function PortfolioCatalog() {
   );
 }
 
-export function PortfolioServices() {
+export function PortfolioContact() {
   return (
-    <main className="portfolio-inner-page services-page">
+    <main className="portfolio-inner-page contact-page">
       <section className="portfolio-page-heading">
-        <p className="portfolio-eyebrow"><span /> COLABORACIONES</p>
-        <h1>Contrata nuestros<br />servicios<span className="portfolio-period">.</span></h1>
-        <p>Una sección inicial para presentar las soluciones que ofreceré. Los servicios se definirán y ampliarán contigo.</p>
+        <p className="portfolio-eyebrow"><span /> CONTACTO</p>
+        <h1>Conectemos<span className="portfolio-period">.</span></h1>
+        <p>Encuéntrame en mis redes. Añadiré aquí los enlaces para que puedas escribirme y conocer más sobre mi trabajo.</p>
       </section>
-      <section className="service-cards">
-        <article><span>01</span><Code2 size={23} /><h2>Web components</h2><p>Componentes reutilizables, accesibles y adaptables para construir interfaces con una base sólida.</p></article>
-        <article><span>02</span><Layers3 size={23} /><h2>Desarrollo web</h2><p>Páginas y experiencias digitales diseñadas alrededor de las necesidades de cada proyecto.</p></article>
-        <article><span>03</span><Sparkles size={23} /><h2>Soluciones a medida</h2><p>Una base para describir otros servicios, integraciones e ideas que iremos definiendo.</p></article>
-      </section>
-      <section className="portfolio-contact" id="contacto">
-        <div><p className="portfolio-eyebrow">¿TIENES UNA IDEA?</p><h2>Hagámosla<br /><em>realidad.</em></h2></div>
-        <div><p>Este espacio queda listo para añadir tus datos de contacto y el proceso para solicitar un presupuesto.</p><span className="contact-placeholder">[Añade aquí tu correo o enlace de contacto]</span></div>
+      <section className="portfolio-social-links" aria-label="Enlaces a redes sociales">
+        {socialLinks.map(({ name, url }, index) => (
+          <article className="portfolio-social-card" key={name}>
+            <span className="portfolio-social-number">0{index + 1}</span>
+            <h2>{name}</h2>
+            {url
+              ? <a href={url} target="_blank" rel="noreferrer">Visitar perfil <MoveUpRight size={15} /></a>
+              : <span className="portfolio-social-pending">Añade aquí tu enlace</span>}
+          </article>
+        ))}
       </section>
     </main>
   );

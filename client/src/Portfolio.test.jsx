@@ -1,12 +1,12 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { cleanup, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { PortfolioCatalog, PortfolioHeader, PortfolioHome, PortfolioServices } from './Portfolio.jsx';
+import { PortfolioContact, PortfolioHeader, PortfolioHome, PortfolioProjects } from './Portfolio.jsx';
 
 afterEach(cleanup);
 
 describe('portfolio pages', () => {
-  it('shows the presentation and navigation to catalog and services', () => {
+  it('shows the presentation and navigation to projects and contact', () => {
     render(
       <MemoryRouter initialEntries={['/']}>
         <PortfolioHeader />
@@ -15,19 +15,21 @@ describe('portfolio pages', () => {
     );
 
     expect(screen.getByRole('heading', { name: /diseño y desarrollo\s*web con intención/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Catálogo' })).toHaveAttribute('href', '/catalogo');
-    expect(screen.getByRole('link', { name: 'Contrata nuestros servicios' })).toHaveAttribute('href', '/servicios');
+    expect(screen.getByRole('link', { name: 'Proyectos' })).toHaveAttribute('href', '/proyectos');
+    expect(screen.getByRole('link', { name: 'Contacto' })).toHaveAttribute('href', '/contacto');
+    expect(screen.queryByRole('link', { name: 'Contrata nuestros servicios' })).not.toBeInTheDocument();
   });
 
-  it('lists the existing store as an example visitors can open', () => {
-    render(<MemoryRouter><PortfolioCatalog /></MemoryRouter>);
+  it('shows the store only as a visual sample with no shopping link', () => {
+    render(<MemoryRouter><PortfolioProjects /></MemoryRouter>);
 
     expect(screen.getByRole('heading', { name: 'Tienda de ejemplo' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Visitar la tienda' })).toHaveAttribute('href', '/tienda');
+    expect(screen.getByText(/no hay compras, carrito ni pagos/i)).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /tienda/i })).not.toBeInTheDocument();
   });
 
   it('offers preventive cybersecurity work and identifies the completed training', () => {
-    render(<MemoryRouter><PortfolioCatalog /></MemoryRouter>);
+    render(<MemoryRouter><PortfolioProjects /></MemoryRouter>);
 
     expect(screen.getByRole('heading', { name: 'Ciberseguridad web.' })).toBeInTheDocument();
     expect(screen.getByText(/ofrezco una revisión preventiva de aspectos básicos de seguridad web/i)).toBeInTheDocument();
@@ -35,11 +37,13 @@ describe('portfolio pages', () => {
     expect(screen.getByText(/no incluye auditorías avanzadas ni pruebas de intrusión/i)).toBeInTheDocument();
   });
 
-  it('provides a starter services and contact section', () => {
-    render(<MemoryRouter><PortfolioServices /></MemoryRouter>);
+  it('provides placeholders for the social profile links', () => {
+    render(<MemoryRouter><PortfolioContact /></MemoryRouter>);
 
-    expect(screen.getByRole('heading', { name: /contrata nuestros\s*servicios/i })).toBeInTheDocument();
-    expect(screen.getByText('Web components')).toBeInTheDocument();
-    expect(screen.getByText('[Añade aquí tu correo o enlace de contacto]')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Conectemos.' })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: 'Enlaces a redes sociales' })).toBeInTheDocument();
+    expect(screen.getAllByText('Añade aquí tu enlace')).toHaveLength(4);
+    expect(screen.getByText('LinkedIn')).toBeInTheDocument();
+    expect(screen.getByText('GitHub')).toBeInTheDocument();
   });
 });

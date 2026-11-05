@@ -701,7 +701,7 @@ thead th { color: #675b4e; font-size: .78rem; letter-spacing: .07rem; text-trans
   line-height: .98;
   font-weight: 500;
 }
-.portfolio-hero h1 em, .portfolio-contact h2 em {
+.portfolio-hero h1 em {
   color: var(--portfolio-lime);
   font-family: Georgia, "Times New Roman", serif;
   font-weight: 400;
@@ -832,14 +832,14 @@ thead th { color: #675b4e; font-size: .78rem; letter-spacing: .07rem; text-trans
   gap: 2rem;
   align-items: end;
 }
-.portfolio-teaser h2, .portfolio-contact h2 {
+.portfolio-teaser h2 {
   color: var(--portfolio-ink);
   font-size: clamp(2rem, 4vw, 3.9rem);
   letter-spacing: -.06em;
   line-height: 1.03;
   font-weight: 500;
 }
-.portfolio-teaser > p, .portfolio-contact > div > p:not(.portfolio-eyebrow) { color: var(--portfolio-muted); font-size: .93rem; line-height: 1.8; max-width: 440px; }
+.portfolio-teaser > p { color: var(--portfolio-muted); font-size: .93rem; line-height: 1.8; max-width: 440px; }
 .portfolio-text-link { color: var(--portfolio-lime); display: inline-flex; align-items: center; gap: .5rem; white-space: nowrap; font-size: .82rem; }
 
 .portfolio-inner-page { min-height: 76vh; padding: clamp(3.4rem, 8vw, 7rem) clamp(1.2rem, 10vw, 10rem); }
@@ -878,16 +878,6 @@ thead th { color: #675b4e; font-size: .78rem; letter-spacing: .07rem; text-trans
 .project-info p { margin: 0 0 .45rem; color: var(--portfolio-lime); font-size: .6rem; letter-spacing: .13em; }
 .project-info h2 { color: var(--portfolio-ink); font-size: 1.45rem; font-weight: 500; }
 .project-info > div > span { display: inline-block; color: var(--portfolio-muted); font-size: .78rem; margin-top: .35rem; }
-.project-open {
-  width: 2.5rem;
-  height: 2.5rem;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--portfolio-line);
-  border-radius: 50%;
-  color: var(--portfolio-lime);
-}
-.project-visit-link { display: inline-flex; gap: .4rem; align-items: center; padding: .65rem 1.15rem 1rem; color: var(--portfolio-ink); font-size: .8rem; }
 .portfolio-coming-card { position: relative; min-height: 360px; padding: clamp(1.3rem, 4vw, 2.5rem); display: flex; flex-direction: column; align-items: flex-start; justify-content: center; overflow: hidden; }
 .portfolio-coming-card::after { content: ""; position: absolute; width: 210px; height: 210px; right: -100px; top: -70px; border: 1px solid rgba(255, 101, 114,.24); border-radius: 50%; box-shadow: 0 0 0 30px rgba(255, 101, 114,.025), 0 0 0 60px rgba(255, 101, 114,.025); }
 .coming-icons { color: var(--portfolio-lime); display: flex; gap: .65rem; margin-bottom: 2.1rem; }
@@ -944,18 +934,38 @@ thead th { color: #675b4e; font-size: .78rem; letter-spacing: .07rem; text-trans
   letter-spacing: .12em;
   white-space: nowrap;
 }
-.service-cards { margin-top: 3rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--portfolio-line); border-bottom: 1px solid var(--portfolio-line); }
-.service-cards article { position: relative; padding: 1.5rem 1.25rem 2rem; min-height: 260px; display: flex; flex-direction: column; align-items: flex-start; }
-.service-cards article + article { border-left: 1px solid var(--portfolio-line); }
-.service-cards article > span { color: var(--portfolio-lime); font-size: .65rem; letter-spacing: .15em; }
-.service-cards article > svg { color: #c3a6a9; margin-top: 2.3rem; }
-.service-cards h2 { color: var(--portfolio-ink); font-size: 1.32rem; font-weight: 500; margin-top: .9rem; }
-.service-cards p { color: var(--portfolio-muted); font-size: .82rem; line-height: 1.7; max-width: 320px; }
-.portfolio-contact { margin-top: 4rem; padding: clamp(1.5rem, 5vw, 3.5rem); border: 1px solid rgba(255, 101, 114,.3); background: linear-gradient(120deg, rgba(255, 101, 114,.07), transparent 65%); display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; }
-.portfolio-contact h2 { font-size: clamp(2.2rem, 4.5vw, 4rem); }
-.portfolio-contact h2 em { font-style: normal; }
-.portfolio-contact > div > p:not(.portfolio-eyebrow) { margin-bottom: 1rem; }
-.contact-placeholder { display: inline-block; padding: .7rem .85rem; border: 1px dashed rgba(255, 101, 114,.4); color: #da969b; font-size: .77rem; }
+.portfolio-social-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 3rem;
+  border-top: 1px solid var(--portfolio-line);
+  border-left: 1px solid var(--portfolio-line);
+}
+.portfolio-social-card {
+  position: relative;
+  display: flex;
+  min-height: 190px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: clamp(1.2rem, 3vw, 2rem);
+  border-right: 1px solid var(--portfolio-line);
+  border-bottom: 1px solid var(--portfolio-line);
+  background: linear-gradient(145deg, rgba(255, 101, 114, .055), transparent 65%);
+  transition: background-color .2s ease, transform .2s ease;
+}
+.portfolio-social-card:hover { background-color: rgba(255, 101, 114, .07); }
+.portfolio-social-number { position: absolute; top: 1.2rem; right: 1.2rem; color: var(--portfolio-muted); font-size: .65rem; letter-spacing: .12em; }
+.portfolio-social-card h2 { color: var(--portfolio-ink); font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 500; letter-spacing: -.04em; }
+.portfolio-social-card a, .portfolio-social-pending {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  margin-top: .7rem;
+  color: var(--portfolio-lime);
+  font-size: .78rem;
+}
+.portfolio-social-pending { color: var(--portfolio-muted); }
 .portfolio-footer {
   padding: 1.4rem clamp(1.2rem, 5vw, 5.5rem);
   background: #0e0f0e;
@@ -988,9 +998,6 @@ thead th { color: #675b4e; font-size: .78rem; letter-spacing: .07rem; text-trans
   .portfolio-text-link { grid-column: 1 / -1; }
   .portfolio-project-grid { grid-template-columns: 1fr; }
   .portfolio-coming-card { min-height: 280px; }
-  .service-cards { grid-template-columns: 1fr; }
-  .service-cards article { min-height: 210px; }
-  .service-cards article + article { border-left: 0; border-top: 1px solid var(--portfolio-line); }
 }
 
 @media (max-width: 560px) {
@@ -1011,8 +1018,8 @@ thead th { color: #675b4e; font-size: .78rem; letter-spacing: .07rem; text-trans
   .portfolio-intro-strip p { order: 3; width: 100%; }
   .portfolio-teaser { grid-template-columns: 1fr; }
   .portfolio-inner-page { padding-top: 3.5rem; }
-  .portfolio-contact { grid-template-columns: 1fr; }
   .portfolio-security-offer { grid-template-columns: auto minmax(0, 1fr); gap: .9rem; }
+  .portfolio-social-links { grid-template-columns: 1fr; }
   .portfolio-security-index { grid-column: 2; }
   .portfolio-footer { flex-wrap: wrap; }
   .portfolio-footer > span { order: 3; width: 100%; }
