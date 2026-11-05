@@ -1078,6 +1078,45 @@ thead th { color: #675b4e; font-size: .78rem; letter-spacing: .07rem; text-trans
 }
 .business-card-back-link:hover { color: var(--portfolio-lime); }
 .business-card-showcase { max-width: 1050px; margin: 3.5rem auto 0; }
+.business-card-model-picker {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 1.2rem;
+  border-top: 1px solid var(--portfolio-line);
+  border-left: 1px solid var(--portfolio-line);
+}
+.business-card-model-option {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .75rem;
+  min-height: 84px;
+  padding: .8rem;
+  border: 0;
+  border-right: 1px solid var(--portfolio-line);
+  border-bottom: 1px solid var(--portfolio-line);
+  background: #171916;
+  color: var(--portfolio-muted);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, box-shadow .2s ease;
+}
+.business-card-model-option:hover { background: #1d1e1a; color: var(--portfolio-ink); }
+.business-card-model-option.is-selected { position: relative; z-index: 1; background: #211a19; box-shadow: inset 0 -2px var(--portfolio-lime); color: var(--portfolio-ink); }
+.business-card-model-option:focus-visible { outline: 2px solid var(--portfolio-lime); outline-offset: -3px; }
+.business-card-model-copy { display: grid; gap: .3rem; }
+.business-card-model-copy strong { color: var(--portfolio-ink); font-size: .75rem; font-weight: 600; }
+.business-card-model-copy small { color: var(--portfolio-muted); font-size: .64rem; line-height: 1.4; }
+.business-card-model-option > svg { color: var(--portfolio-lime); }
+.business-card-model-swatch { position: relative; display: grid; width: 3rem; height: 2.2rem; place-items: center; overflow: hidden; border: 1px solid rgba(240,238,232,.16); background: #1d1c19; }
+.business-card-model-swatch i { display: block; width: 1.55rem; height: .16rem; margin: .1rem; background: var(--portfolio-lime); }
+.swatch-intencion { background: linear-gradient(135deg, #211a19, #121311); }
+.swatch-intencion i:first-child { width: 1.8rem; }
+.swatch-intencion i:last-child { width: .9rem; justify-self: start; }
+.swatch-perfil { background: linear-gradient(135deg, #1d2525, #171916); }
+.swatch-perfil i:first-child { width: .45rem; height: .45rem; border-radius: 50%; }
+.swatch-perfil i:last-child { width: 1.6rem; }
 .business-card-stage { perspective: 1600px; }
 .business-card-inner {
   display: grid;
@@ -1098,12 +1137,136 @@ thead th { color: #675b4e; font-size: .78rem; letter-spacing: .07rem; text-trans
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
+.model-intencion .business-card-back {
+  background:
+    radial-gradient(ellipse at 100% 0, rgba(255,101,114,.1), transparent 35%),
+    linear-gradient(145deg, #191a17, #121311);
+}
+.model-perfil .business-card-back {
+  background:
+    radial-gradient(ellipse at 0 0, rgba(196,216,119,.075), transparent 35%),
+    linear-gradient(145deg, #1a201f, #121311);
+}
 .business-card-front {
   justify-content: space-between;
   background:
     radial-gradient(ellipse at 82% 25%, rgba(255,101,114,.2), transparent 42%),
     linear-gradient(135deg, #1d1c19, #171916 58%, #121311);
 }
+.model-studio .business-card-front {
+  background:
+    radial-gradient(ellipse at 82% 17%, rgba(255,101,114,.18), transparent 35%),
+    radial-gradient(ellipse at 9% 92%, rgba(196,216,119,.08), transparent 30%),
+    linear-gradient(128deg, #191a17, #171916 58%, #121311);
+}
+.business-card-studio-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(190px, .75fr);
+  align-items: center;
+  gap: clamp(1.2rem, 5vw, 4rem);
+  flex: 1;
+  padding: 2rem 0;
+}
+.business-card-studio-copy { position: relative; z-index: 1; }
+.business-card-studio-copy h2, .business-card-intention-main h2 {
+  margin: 1rem 0 .7rem;
+  color: var(--portfolio-ink);
+  font-size: clamp(3rem, 7vw, 5.7rem);
+  font-weight: 500;
+  letter-spacing: -.08em;
+  line-height: .88;
+}
+.business-card-studio-copy h2 em, .business-card-intention-main h2 em {
+  color: var(--portfolio-lime);
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+}
+.business-card-studio-copy .business-card-role, .business-card-intention-main .business-card-role {
+  max-width: 380px;
+  margin-top: 1.1rem;
+  color: #b7b6ac;
+  font-size: .85rem;
+}
+.business-card-studio-copy .business-card-manifesto, .business-card-intention-main .business-card-manifesto {
+  margin-top: 1.7rem;
+  color: var(--portfolio-muted);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.1rem, 2.1vw, 1.5rem);
+  line-height: 1.25;
+}
+.business-card-art-panel {
+  position: relative;
+  display: grid;
+  width: min(100%, 270px);
+  aspect-ratio: .82;
+  place-items: center;
+  justify-self: end;
+  overflow: hidden;
+  border: 1px solid rgba(240,238,232,.16);
+  background:
+    linear-gradient(90deg, transparent 49.8%, rgba(240,238,232,.09) 50%, transparent 50.2%),
+    linear-gradient(transparent 49.8%, rgba(240,238,232,.09) 50%, transparent 50.2%),
+    radial-gradient(circle at center, rgba(255,101,114,.14), transparent 58%),
+    rgba(255,255,255,.015);
+  color: var(--portfolio-lime);
+}
+.business-card-art-orbit { position: absolute; width: 70%; aspect-ratio: 1; border: 1px solid rgba(255,101,114,.43); border-radius: 50%; }
+.business-card-art-orbit.orbit-a { transform: scaleX(.46) rotate(38deg); }
+.business-card-art-orbit.orbit-b { transform: scaleX(.46) rotate(-38deg); border-color: rgba(196,216,119,.45); }
+.business-card-art-panel > svg { position: relative; z-index: 1; padding: .7rem; width: 4rem; height: 4rem; background: #171916; }
+.business-card-art-cross { position: absolute; top: 24%; right: 19%; color: var(--portfolio-ink); font-size: 1.4rem; font-weight: 200; }
+.business-card-art-index, .business-card-art-caption, .business-card-art-bottom { position: absolute; color: var(--portfolio-muted); font-size: .53rem; letter-spacing: .17em; }
+.business-card-art-index { top: 1rem; left: 1rem; }
+.business-card-art-caption { top: 1rem; right: 1rem; text-align: right; line-height: 1.6; }
+.business-card-art-bottom { bottom: 1rem; left: 1rem; }
+.business-card-studio-bottom { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 1rem; padding-top: 1rem; border-top: 1px solid var(--portfolio-line); }
+.business-card-capabilities { display: flex; flex-wrap: wrap; gap: .6rem 1rem; }
+.business-card-capabilities span { display: inline-flex; align-items: center; gap: .45rem; color: #c3c0b7; font-size: .68rem; }
+.business-card-capabilities i { width: .32rem; height: .32rem; border-radius: 50%; background: var(--portfolio-lime); }
+.model-intencion .business-card-front {
+  background:
+    radial-gradient(ellipse at 80% 22%, rgba(255,101,114,.22), transparent 38%),
+    linear-gradient(135deg, #211a19, #171916 62%, #121311);
+}
+.business-card-intention-layout { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(160px, .7fr); align-items: center; gap: 2rem; flex: 1; padding: 1.7rem 0; }
+.business-card-intention-main h2 { font-size: clamp(3rem, 7vw, 5.4rem); }
+.business-card-intention-side { position: relative; display: flex; min-height: 245px; flex-direction: column; justify-content: center; overflow: hidden; padding: 1.4rem; border-left: 1px solid rgba(255,101,114,.35); background: linear-gradient(145deg, rgba(255,101,114,.08), transparent 70%); }
+.intention-side-label, .intention-side-foot { color: var(--portfolio-muted); font-size: .52rem; letter-spacing: .16em; }
+.business-card-intention-side strong { color: var(--portfolio-ink); font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 400; letter-spacing: -.07em; }
+.business-card-intention-side strong span { color: var(--portfolio-lime); }
+.intention-side-lines { display: grid; gap: .45rem; margin: .8rem 0 1.2rem; }
+.intention-side-lines i { width: 86%; height: 1px; background: rgba(240,238,232,.26); }
+.intention-side-lines i:nth-child(2) { width: 63%; background: rgba(255,101,114,.55); }
+.intention-side-lines i:nth-child(3) { width: 42%; }
+.business-card-intention-bottom { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 1.5rem; align-items: center; padding-top: 1rem; border-top: 1px solid var(--portfolio-line); }
+.business-card-intention-bottom .business-card-socials { justify-content: flex-end; }
+.model-perfil .business-card-face { border-color: rgba(190,205,202,.22); }
+.model-perfil .business-card-front {
+  background:
+    radial-gradient(ellipse at 10% 12%, rgba(196,216,119,.1), transparent 30%),
+    radial-gradient(ellipse at 100% 100%, rgba(255,101,114,.17), transparent 40%),
+    linear-gradient(145deg, #1a201f, #171916 60%, #121311);
+}
+.business-card-profile-heading { padding-bottom: 1.4rem; border-bottom: 1px solid var(--portfolio-line); }
+.business-card-profile-label { display: flex; align-items: center; gap: .55rem; color: var(--portfolio-lime); font-size: .57rem; letter-spacing: .14em; }
+.business-card-profile-label > span:first-child { width: .42rem; height: .42rem; border-radius: 50%; background: var(--portfolio-lime); box-shadow: 0 0 12px rgba(196,216,119,.5); }
+.profile-label-dot { margin-left: auto; color: var(--portfolio-muted); font-size: .5rem; }
+.business-card-profile-person { display: flex; align-items: center; gap: 1rem; margin-top: 1.6rem; }
+.business-card-profile-monogram { display: grid; width: 4.1rem; height: 4.1rem; flex: 0 0 auto; place-items: center; border: 1px solid rgba(255,101,114,.4); border-radius: 1.2rem; background: rgba(255,101,114,.08); color: var(--portfolio-lime); font-family: Georgia, serif; font-size: 1.35rem; }
+.business-card-profile-person p { margin: 0 0 .35rem; color: var(--portfolio-muted); font-size: .55rem; letter-spacing: .15em; }
+.business-card-profile-person h2 { margin: 0; color: var(--portfolio-ink); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 500; letter-spacing: -.06em; }
+.business-card-profile-person h2 em { color: var(--portfolio-lime); font-family: Georgia, serif; font-weight: 400; }
+.business-card-profile-person div > span { display: inline-block; margin-top: .35rem; color: #b7b6ac; font-size: .75rem; }
+.business-card-profile-value { max-width: 760px; margin: 1.4rem 0; }
+.business-card-profile-value > span { color: var(--portfolio-muted); font-size: .57rem; letter-spacing: .15em; }
+.business-card-profile-value p { margin: .55rem 0 0; color: var(--portfolio-ink); font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.15rem, 2.3vw, 1.7rem); line-height: 1.45; }
+.business-card-profile-highlights { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .65rem; margin-bottom: 1.3rem; }
+.business-card-profile-highlights > div { display: grid; justify-items: start; gap: .65rem; min-height: 88px; padding: .8rem; border: 1px solid var(--portfolio-line); color: var(--portfolio-lime); }
+.business-card-profile-highlights span { color: var(--portfolio-ink); font-size: .64rem; line-height: 1.4; }
+.front-perfil > .business-card-socials { justify-content: flex-start; }
+.model-perfil .business-card-service-icon { border-radius: .55rem; background: rgba(255,101,114,.055); }
+.model-intencion .business-card-service-icon { border-radius: 50%; }
+.model-perfil .business-card-service { background: rgba(255,255,255,.025); }
 .business-card-topline { display: flex; align-items: center; gap: .8rem; }
 .business-card-kicker, .business-card-index, .business-card-discipline,
 .business-card-focus > span, .business-card-demos > span, .business-card-cta > span {
@@ -1231,6 +1394,8 @@ thead th { color: #675b4e; font-size: .78rem; letter-spacing: .07rem; text-trans
   .portfolio-coming-card { min-height: 280px; }
   .business-card-face { min-height: 600px; }
   .business-card-service { min-height: 120px; }
+  .business-card-model-picker { grid-template-columns: 1fr; }
+  .business-card-model-option { min-height: 68px; }
 }
 
 @media (max-width: 560px) {
@@ -1253,12 +1418,28 @@ thead th { color: #675b4e; font-size: .78rem; letter-spacing: .07rem; text-trans
   .portfolio-inner-page { padding-top: 3.5rem; }
   .portfolio-security-offer { grid-template-columns: auto minmax(0, 1fr); gap: .9rem; }
   .portfolio-social-links { grid-template-columns: 1fr; }
-  .business-card-front-bottom { grid-template-columns: 1fr; gap: 1rem; }
   .business-card-socials { justify-content: flex-start; }
   .business-card-services { grid-template-columns: 1fr; }
   .business-card-face { min-height: auto; }
   .business-card-front { min-height: 650px; }
   .business-card-back { min-height: 0; }
+  .business-card-studio-layout, .business-card-intention-layout { grid-template-columns: 1fr; gap: 1rem; padding: 1.3rem 0; }
+  .business-card-art-panel { width: min(100%, 150px); aspect-ratio: 1.3; justify-self: start; }
+  .business-card-art-orbit { width: 42%; }
+  .business-card-art-panel > svg { width: 3.2rem; height: 3.2rem; }
+  .business-card-studio-copy h2, .business-card-intention-main h2 { font-size: clamp(2.8rem, 13vw, 4.3rem); }
+  .business-card-intention-side { min-height: 135px; padding: .8rem 1rem; }
+  .business-card-intention-side strong { font-size: 2rem; }
+  .intention-side-lines { margin: .4rem 0 .6rem; }
+  .business-card-intention-bottom { grid-template-columns: 1fr; gap: 1rem; }
+  .business-card-profile-label { flex-wrap: wrap; }
+  .profile-label-dot { width: 100%; margin-left: 1rem; }
+  .business-card-profile-person { align-items: flex-start; }
+  .business-card-profile-monogram { width: 3rem; height: 3rem; }
+  .business-card-profile-person h2 { font-size: clamp(1.6rem, 7vw, 2.4rem); }
+  .business-card-profile-highlights { grid-template-columns: 1fr; }
+  .business-card-profile-highlights > div { grid-template-columns: auto 1fr; align-items: center; min-height: auto; }
+  .business-card-model-copy small { font-size: .61rem; }
   .business-card-project-preview { width: 82%; min-height: 210px; }
   .portfolio-security-index { grid-column: 2; }
   .portfolio-footer { flex-wrap: wrap; }

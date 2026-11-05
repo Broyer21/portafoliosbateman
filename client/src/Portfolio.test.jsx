@@ -62,6 +62,28 @@ describe('portfolio pages', () => {
     expect(screen.getByRole('button', { name: 'Ver el reverso de la tarjeta' })).toBeInTheDocument();
   });
 
+  it('lets visitors compare three card models with a consistent service list', async () => {
+    const { container } = render(
+      <MemoryRouter initialEntries={['/demo-tarjeta']}>
+        <PortfolioRoutes />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByRole('button', { name: 'Usar modelo Estudio' })).toHaveAttribute('aria-pressed', 'true');
+    fireEvent.click(screen.getByRole('button', { name: 'Usar modelo Intención' }));
+    expect(container.querySelector('.business-card-stage')).toHaveClass('model-intencion');
+    expect(screen.getByRole('heading', { name: /juan esteban bateman/i })).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Ver el reverso de la tarjeta' }));
+    expect(await screen.findByRole('heading', { name: 'Integración de APIs' })).toBeInTheDocument();
+    expect(container.querySelectorAll('.business-card-service')).toHaveLength(6);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Usar modelo Perfil digital' }));
+    expect(container.querySelector('.business-card-stage')).toHaveClass('model-perfil');
+    expect(screen.getByRole('button', { name: 'Ver el reverso de la tarjeta' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Usar modelo Perfil digital' })).toHaveAttribute('aria-pressed', 'true');
+  });
+
   it('offers preventive cybersecurity work and identifies the completed training', () => {
     render(<MemoryRouter><PortfolioProjects /></MemoryRouter>);
 
