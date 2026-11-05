@@ -36,6 +36,32 @@ describe('portfolio pages', () => {
     expect(screen.getByRole('link', { name: 'Abrir la tienda de ejemplo' })).toHaveAttribute('href', '/tienda');
   });
 
+  it('offers digital business cards as a service and links to the interactive sample', () => {
+    render(<MemoryRouter><PortfolioProjects /></MemoryRouter>);
+
+    expect(screen.getByRole('heading', { name: 'Tarjetas digitales' })).toBeInTheDocument();
+    expect(screen.getByText(/para emprendedores, profesionales y negocios/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Abrir la demo de tarjeta de presentación' })).toHaveAttribute('href', '/demo-tarjeta');
+  });
+
+  it('shows the reusable two-sided business card demo with the service list', async () => {
+    render(
+      <MemoryRouter initialEntries={['/demo-tarjeta']}>
+        <PortfolioRoutes />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByRole('heading', { name: /juan esteban bateman/i })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Ver el reverso de la tarjeta' }));
+
+    expect(await screen.findByRole('heading', { name: 'Lo que puedo construir contigo.' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Tarjetas de presentación digitales' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Ciberseguridad web preventiva' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /tienda interactiva/i })).toHaveAttribute('href', '/tienda');
+    fireEvent.click(screen.getByRole('button', { name: 'Volver al frente de la tarjeta' }));
+    expect(screen.getByRole('button', { name: 'Ver el reverso de la tarjeta' })).toBeInTheDocument();
+  });
+
   it('offers preventive cybersecurity work and identifies the completed training', () => {
     render(<MemoryRouter><PortfolioProjects /></MemoryRouter>);
 

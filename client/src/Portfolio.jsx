@@ -195,7 +195,7 @@ export function PortfolioProjects() {
       <section className="portfolio-page-heading">
         <p className="portfolio-eyebrow"><span /> PROYECTOS Y MUESTRAS</p>
         <h1>Proyectos<span className="portfolio-period">.</span></h1>
-        <p>Una selección de proyectos y muestras visuales de interfaces web. La tienda es solo una maqueta: no permite comprar.</p>
+        <p>Servicios y demos interactivas para explorar distintas ideas de diseño y desarrollo web.</p>
       </section>
       <section className="portfolio-project-grid">
         <article className="portfolio-project-card">
@@ -207,6 +207,23 @@ export function PortfolioProjects() {
           </Link>
           <div className="project-info">
             <div><p>DEMO INTERACTIVA · SIN PAGOS</p><h2>Tienda de ejemplo</h2><span>Explora productos, añade a la bolsa y mira el checkout de muestra.</span></div>
+          </div>
+        </article>
+        <article className="portfolio-project-card">
+          <Link className="project-art-link business-card-project-link" to="/demo-tarjeta" aria-label="Abrir la demo de tarjeta de presentación">
+            <div className="business-card-project-art">
+              <div className="business-card-project-preview">
+                <span className="business-card-project-mark">eb</span>
+                <span className="business-card-project-label">TARJETA DIGITAL · DEMO</span>
+                <strong>Juan Esteban<br /><em>Bateman.</em></strong>
+                <span className="business-card-project-discipline">DESARROLLO WEB · COMPONENTES · IDEAS</span>
+                <div className="business-card-project-socials"><Linkedin size={13} /><Github size={13} /><Instagram size={13} /></div>
+              </div>
+              <span className="project-number">02 / PRESENTACIÓN DIGITAL</span>
+            </div>
+          </Link>
+          <div className="project-info">
+            <div><p>SERVICIO · DEMO INTERACTIVA</p><h2>Tarjetas digitales</h2><span>Diseño de tarjetas de presentación para emprendedores, profesionales y negocios. Abre la demo para ver ambas caras.</span></div>
           </div>
         </article>
         <article className="portfolio-coming-card">

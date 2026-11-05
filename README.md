@@ -20,4 +20,5 @@ El workflow [`.github/workflows/pages.yml`](./.github/workflows/pages.yml) compi
 
 - Para poner tus perfiles, edita la lista `socialLinks` de `client/src/Portfolio.jsx` y añade la URL correspondiente a cada red.
 - La tienda de ejemplo está en `client/src/App.jsx`; la pantalla de pasarela sin pagos se define en `client/src/PortfolioApp.jsx`.
+- La oferta de tarjetas digitales está en `client/src/Portfolio.jsx`; su demo de dos caras se puede reutilizar o personalizar desde `client/src/BusinessCardDemo.jsx`.
 - Las imágenes que se muestran en el portfolio están en `client/public/images/`.

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { CartProvider, useCart } from './CartContext.jsx';
 import { CartPage, money } from './components.jsx';
 import { ProductPage, ShopPage } from './App.jsx';
+import BusinessCardDemo from './BusinessCardDemo.jsx';
 import { PortfolioBubbles, PortfolioFooter, PortfolioHeader, PortfolioOnePage } from './Portfolio.jsx';
 
 function PortfolioPage() {
@@ -12,6 +13,17 @@ function PortfolioPage() {
       <PortfolioBubbles />
       <PortfolioHeader />
       <PortfolioOnePage />
+      <PortfolioFooter />
+    </>
+  );
+}
+
+function BusinessCardDemoPage() {
+  return (
+    <>
+      <PortfolioBubbles />
+      <PortfolioHeader />
+      <BusinessCardDemo />
       <PortfolioFooter />
     </>
   );
@@ -181,6 +193,7 @@ export function PortfolioRoutes() {
       <Route path="/catalogo" element={<PortfolioPage />} />
       <Route path="/contacto" element={<PortfolioPage />} />
       <Route path="/servicios" element={<PortfolioPage />} />
+      <Route path="/demo-tarjeta" element={<BusinessCardDemoPage />} />
       <Route path="/tienda" element={<ShopDemoShell><DemoProductsPage /></ShopDemoShell>} />
       <Route path="/producto/:slug" element={<ShopDemoShell><DemoProductPage /></ShopDemoShell>} />
       <Route path="/carrito" element={<ShopDemoShell><DemoCartPage /></ShopDemoShell>} />
